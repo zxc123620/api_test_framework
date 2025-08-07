@@ -1,0 +1,46 @@
+ServerConfig:
+  host: 10.168.2.118
+  port: 9082
+  protocol: http
+
+MySqlConfig:
+  host: localhost
+  username: root
+  password: root
+  database: auto_test_db
+  port: 3306
+
+MqttConfig:
+  host: 10.168.2.118
+  port: 1883
+  username: admin
+  password: CSRD_PASS@2023user
+
+SftpConfig:
+  server_ip: 10.168.2.118
+  port: 2222
+  username: xlza
+  password: CsrdXljc1
+  path: /opt/alarmfile
+
+PimsConfig:
+  VirtualFa:
+    - desc: "单线"
+      radar_camera_bind: [ [ 1,1 ], [ 2,2 ], [ 3,3 ], [ 4,4 ] ]
+      device_no_list: [ "75001" ]
+
+    - desc: "双线"
+      device_no_list: [ "75002" ]
+      radar_camera_bind: [ [ 1,1 ], [ 2,1 ], [ 3,2 ], [ 4,2 ] ]
+
+    - desc: "单线"
+      device_no_list: [ "75003" ]
+      radar_camera_bind: [ [ 1,1 ], [ 2,2 ], [ 3,3 ] ]
+
+#  - desc: "单线"
+#    radar_camera_bind: [ [ 1,1 ], [ 2,2 ], [ 3,3 ], [ 4,4 ],[ 5,5 ],[ 6,6 ] ]
+#    device_no_list: [ "75004","75005","75006","75007","75008","75009","75010","75011","75012","75013","75014",
+#                      "75015","75016","75017","75018","75019","75020","75021","75022","75023","75024","75025",
+#                      "75026","75027","75028","75029","75030","75031","75032","75033","75034","75035","75036",
+#                      "75037","75038","75039","75040","75041","75042","75043","75044","75045","75046","75047",
+#                      "75048","75049","75050" ]

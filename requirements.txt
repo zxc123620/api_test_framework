@@ -1,0 +1,6 @@
+pycryptodome
+PyYAML
+Requests
+PyMySQL
+pydantic
+jsonpath
