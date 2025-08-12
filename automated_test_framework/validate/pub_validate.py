@@ -31,6 +31,7 @@ class PubValidate:
         return expect_data, result
         # valid_method(expect_data, result)
 
+
     @classmethod
     def json_path_data_in_assert(cls, json_path_exp: str, expect_data, actual_data):
         """
@@ -42,6 +43,17 @@ class PubValidate:
         """
         expect_data, result = cls.__json_path_extrack(json_path_exp, expect_data, actual_data)
         cls.assert_data_in(expect_data, result)
+
+    @classmethod
+    def json_path_data_in_validate(cls, data_id:str, res_model):
+        """
+        data_in验证
+        :param data_id:
+        :param res_model:
+        :return:
+        """
+        model = MysqlDataGet.get_data(data_id)
+        PubValidate.json_path_data_in_assert(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump_json())
 
     @classmethod
     def json_path_list_equal_assert(cls, json_path_exp: str, expect_data, actual_data):

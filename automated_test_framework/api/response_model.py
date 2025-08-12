@@ -15,3 +15,5 @@ class ResponseModel(BaseModel):
     json_body: Optional[dict]
     content: Optional[bytes]
     text: Optional[str]
+
+# ResponseModel().model_dump_json()

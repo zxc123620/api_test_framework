@@ -36,11 +36,11 @@ class ApiModel:
                     new_url = f"{protocol}://{host}:{port}/{url}"
                 logging.info(f"请求url:{url}, 方法:{method}, 头部信息:{headers}")
                 response = requests.request(method=method, url=new_url, json=json, params=params, headers=headers)
-                logging.info(f"响应码:{response.status_code}, 响应头:{response.headers}")
+                logging.info(f"响应码:{response.status_code}")
                 res_json = response.json()
                 res_text = response.text
                 res_content = response.content
-                logging.info(f"响应内容:{res_json}, 响应文本:{res_text}, 响应二进制数据:{res_content}") if log else None
+                logging.info(f"响应头:{response.headers}, 响应内容:{res_json}, 响应文本:{res_text}, 响应二进制数据:{res_content}") if log else None
                 response_model_cls_new = ResponseModel if response_model_cls is None else response_model_cls
                 res_model = response_model_cls_new(**{"status_code": response.status_code, "headers": response.headers,
                                                       "json_body": response.json(), "content": response.content,
@@ -48,7 +48,10 @@ class ApiModel:
                 logging.info("响应模型生成完毕")
                 func_result = func(params, json, *args, **kwargs)
                 logging.info("函数执行完毕")
-                return res_model, func_result
+                if func_result is None:
+                    return res_model
+                else:
+                    return res_model, func_result
 
             return inner
 
