@@ -31,7 +31,8 @@ class MysqlDataGet:
                 logging.info(f"{sub_class}模型匹配")
                 break
             except ValidationError as e:
-                logging.info(f"{sub_class} 模型不匹配,理由:{e.errors()}")
+                logging.info(f"{sub_class}模型不匹配")
+                logging.debug(f"{sub_class} 模型不匹配,理由:{e.errors()}")
         return model
     # @staticmethod
     # def get_jsonpath_data(case_key):
