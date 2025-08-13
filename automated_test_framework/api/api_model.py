@@ -35,7 +35,7 @@ class ApiModel:
                 if "http" not in url:
                     new_url = f"{protocol}://{host}:{port}/{url}"
                 logging.info(f"请求url:{url}, 方法:{method}, 头部信息:{headers}")
-                response = requests.request(method=method, url=new_url, json=json, params=params, headers=headers)
+                response = requests.request(method=method, url=new_url, json=json, params=params, headers=headers, timeout=10,verify=False)
                 logging.info(f"响应码:{response.status_code}")
                 res_json = response.json()
                 res_text = response.text

@@ -26,8 +26,8 @@ class PubValidate:
         """
         logging.info(f"jsonpath语法:{json_path_exp},从实际结果中提取数据...")
         result = jsonpath.jsonpath(actual_data, json_path_exp)
-        logging.info("提取成功,开始验证")
         assert result, f"jsonpath解析失败,未从数据中提取到{json_path_exp}数据"
+        logging.info("提取成功,开始验证")
         return expect_data, result
         # valid_method(expect_data, result)
 
@@ -53,7 +53,7 @@ class PubValidate:
         :return:
         """
         model = MysqlDataGet.get_data(data_id)
-        PubValidate.json_path_data_in_assert(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump_json())
+        PubValidate.json_path_data_in_assert(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
 
     @classmethod
     def json_path_list_equal_assert(cls, json_path_exp: str, expect_data, actual_data):
