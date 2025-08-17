@@ -107,12 +107,12 @@ class PubValidate:
         assert set(actual_data) == set(expect_data), f"预期列表与实际列表不一致,预期{expect_data}, 实际:{actual_data}"
 
     @staticmethod
-    def loop_verify_for_jsonpath(case_key_list, api_res, assert_type: AssertType):
+    def loop_verify_for_jsonpath(case_key_list, api_res_model, assert_type: AssertType):
         """
         从case_id获取数据并进行jsonpath验证
         :param assert_type:
         :param case_key_list:
-        :param api_res:
+        :param api_res_model:
         :return:
         """
         for key in case_key_list:
@@ -122,6 +122,6 @@ class PubValidate:
             jsonpath_exp = model.data.jsonpath_exp
             expect_data = model.data.expect_data
             if assert_type == AssertType.DATA_IN:
-                PubValidate.json_path_data_in_assert(jsonpath_exp, expect_data, api_res.res_body)
+                PubValidate.json_path_data_in_assert(jsonpath_exp, expect_data, api_res_model)
             elif assert_type == AssertType.LIST_EQUAL:
-                PubValidate.json_path_list_equal_assert(jsonpath_exp, expect_data, api_res.res_body)
+                PubValidate.json_path_list_equal_assert(jsonpath_exp, expect_data, api_res_model)
