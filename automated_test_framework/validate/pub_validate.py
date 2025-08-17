@@ -56,9 +56,46 @@ class PubValidate:
         PubValidate.json_path_data_in_assert(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
 
     @classmethod
+    def json_path_data_in_loop_validate(cls, data_id_list:list, res_model):
+        """
+        data_in多验证
+        :param data_id_list:
+        :param res_model:
+        :return:
+        """
+        for data_id in data_id_list:
+            model = MysqlDataGet.get_data(data_id)
+            PubValidate.json_path_data_in_assert(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
+
+    @classmethod
+    def json_path_list_equal_validate(cls, data_id:str, res_model):
+        """
+        列表相等验证
+        :param data_id:
+        :param res_model:
+        :return:
+        """
+        model = MysqlDataGet.get_data(data_id)
+        expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
+        cls.assert_list_equal(expect_data, result)
+
+    @classmethod
+    def json_path_list_equal_loop_validate(cls, data_id_list:list, res_model):
+        """
+        多验证
+        :param res_model:
+        :param data_id_list:
+        :return:
+        """
+        for data_id in data_id_list:
+            model = MysqlDataGet.get_data(data_id)
+            expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
+            cls.assert_list_equal(expect_data, result)
+
+    @classmethod
     def json_path_list_equal_assert(cls, json_path_exp: str, expect_data, actual_data):
         """
-        data_in验证
+        列表相等验证
         :param json_path_exp:
         :param expect_data:
         :param actual_data:
@@ -116,8 +153,6 @@ class PubValidate:
         :return:
         """
         for key in case_key_list:
-            # result = get_sql_data(key)
-            # case_data_obj = JsonPathModel(**result)
             model = MysqlDataGet.get_data(key)
             jsonpath_exp = model.data.jsonpath_exp
             expect_data = model.data.expect_data
