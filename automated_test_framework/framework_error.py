@@ -10,3 +10,6 @@ class NoParamError(Exception):
     没有参数异常
     """
     pass
+
+class TempDataNotFindError(Exception):
+    pass

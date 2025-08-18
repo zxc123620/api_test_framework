@@ -42,7 +42,7 @@ class PubValidate:
         :return:
         """
         expect_data, result = cls.__json_path_extrack(json_path_exp, expect_data, actual_data)
-        cls.assert_data_in(expect_data, result)
+        cls.assert_data_in(expect_data, result[0])
 
     @classmethod
     def json_path_data_in_validate(cls, data_id:str, res_model):
@@ -105,14 +105,13 @@ class PubValidate:
         cls.assert_list_equal(expect_data, result)
 
     @staticmethod
-    def assert_data_in(expect_data: dict, actual_data: list):
+    def assert_data_in(expect_data: dict, actual_data: dict):
         """
         验证预期的字典是否在实际字典的里面
         :param expect_data:
         :param actual_data:
         :return:
         """
-        actual_data = actual_data[0]
         logging.info(f"预期结果:{expect_data}, 实际结果:{actual_data}")
         for expect_key, expect_value in expect_data.items():
             actual_value = actual_data.get(expect_key, None)
