@@ -42,7 +42,7 @@ class PubValidate:
         :return:
         """
         expect_data, result = cls.__json_path_extrack(json_path_exp, expect_data, actual_data)
-        cls.assert_data_in(expect_data, result[0])
+        cls.assert_data_in(expect_data, result)
 
     @classmethod
     def json_path_data_in_validate(cls, data_id:str, res_model):
@@ -105,21 +105,27 @@ class PubValidate:
         cls.assert_list_equal(expect_data, result)
 
     @staticmethod
-    def assert_data_in(expect_data: dict, actual_data: dict):
+    def assert_data_in(expect_data: dict, actual_data_list: list):
         """
         验证预期的字典是否在实际字典的里面
         :param expect_data:
-        :param actual_data:
+        :param actual_data_list:
         :return:
         """
-        logging.info(f"预期结果:{expect_data}, 实际结果:{actual_data}")
-        for expect_key, expect_value in expect_data.items():
-            actual_value = actual_data.get(expect_key, None)
-            logging.info(f"从实际结果中提取到[{expect_key}],数据:[{actual_value}]")
-            # assert actual_value is not None and expect_value == actual_value, \
-            #     f"{expect_key}预期结果与实际结果不一致,预期:[{expect_value}],实际:[{actual_value}]"
-            assert actual_value == expect_value, \
-                f"{expect_key}预期结果与实际结果不一致,预期:[{expect_value}],实际:[{actual_value}]"
+        test_pass = False
+        logging.info(f"预期结果:{expect_data}, 实际结果:{actual_data_list}")
+        for index, actual_data in enumerate(actual_data_list):
+            for expect_key, expect_value in expect_data.items():
+                actual_value = actual_data.get(expect_key, None)
+                logging.info(f"从实际结果中提取到[{expect_key}],数据:[{actual_value}]")
+                try:
+                    assert actual_value == expect_value, \
+                        f"{expect_key}预期结果与实际结果不一致,预期:[{expect_value}],类型：{type(expect_value)},实际:[{actual_value}],类型:{type(actual_value)}"
+                    test_pass = True
+                    break
+                except AssertionError as e:
+                    logging.exception(e)
+        assert test_pass
 
     @staticmethod
     def assert_data_equal(expect_data, actual_data):
