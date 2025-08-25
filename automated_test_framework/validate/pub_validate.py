@@ -124,7 +124,7 @@ class PubValidate:
                     test_pass = True
                     break
                 except AssertionError as e:
-                    logging.exception(e)
+                    logging.info(e)
         assert test_pass
 
     @staticmethod
