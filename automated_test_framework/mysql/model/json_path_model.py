@@ -13,7 +13,10 @@ from automated_test_framework.mysql.model.case_data_model import MysqlDataModel
 
 class JsonPathDataModel(MysqlDataModel):
     class DataModel(BaseModel):
-        expect_data: Union[dict, list]
+        expect_data: Union[dict, list, str]
         jsonpath_exp: str
+
+        def get_list_expect_data(self):
+            return list(self.expect_data)
 
     data: DataModel
