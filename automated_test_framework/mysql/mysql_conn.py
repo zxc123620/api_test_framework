@@ -12,8 +12,6 @@ import logging
 import pymysql
 import pymysql.cursors
 
-from automated_test_framework.mysql.model.case_data_model import MysqlDataModel
-from automated_test_framework.mysql.model.json_path_model import JsonPathDataModel
 from automated_test_framework.load_config import global_config_obj
 from automated_test_framework.temp_data import TempData
 
@@ -60,8 +58,9 @@ def variable_convert(data):
 
     def convert(match):
         temp_data = match.group(1)
-        logging.info(f"匹配到{temp_data},转换为:{TempData.TEMP_DATA.get(temp_data, None)}")
-        return TempData.TEMP_DATA.get(temp_data, None)
+        res = TempData.get_temp_data(temp_data)
+        logging.info(f"匹配到{temp_data},转换为:{res}")
+        return res
 
     data_new = re.sub(r"\$\{([^}]*)}", convert, data)
     return data_new
