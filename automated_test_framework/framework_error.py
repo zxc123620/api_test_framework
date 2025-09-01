@@ -13,3 +13,6 @@ class NoParamError(Exception):
 
 class TempDataNotFindError(Exception):
     pass
+
+class ParamConvertError(Exception):
+    pass

@@ -10,6 +10,7 @@ from enum import Enum
 import jsonpath
 
 from automated_test_framework.enum import AssertType
+from automated_test_framework.framework_error import ParamConvertError
 from automated_test_framework.mysql.data_get import MysqlDataGet
 
 
@@ -139,13 +140,18 @@ class PubValidate:
         assert expect_data == actual_data, f"预期结果[{expect_data}]与实际结果[{actual_data}]不一致"
 
     @staticmethod
-    def assert_list_equal(expect_data: list, actual_data: list):
+    def assert_list_equal(expect_data: list, actual_data):
         """
         验证实际结果列表数据是否相等
         :param expect_data:
         :param actual_data:
         :return:
         """
+        raw = actual_data
+        if not isinstance(actual_data, list):
+            actual_data = eval(actual_data)
+        if not isinstance(actual_data, list):
+            raise ParamConvertError(f"将{raw}转换为列表失败")
         assert set(actual_data) == set(expect_data), f"预期列表与实际列表不一致,预期{expect_data}, 实际:{actual_data}"
 
     @staticmethod
