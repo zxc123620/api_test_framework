@@ -16,3 +16,6 @@ class TempDataNotFindError(Exception):
 
 class ParamConvertError(Exception):
     pass
+
+class NoConfigError(Exception):
+    pass

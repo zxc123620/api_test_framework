@@ -5,6 +5,7 @@
 # @Author    :zhouxiaochuan
 # @description:
 import logging
+from datetime import datetime
 from enum import Enum
 
 import jsonpath
@@ -79,6 +80,34 @@ class PubValidate:
         model = MysqlDataGet.get_data(data_id)
         expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
         cls.assert_list_equal(expect_data, result)
+
+
+
+    @classmethod
+    def json_path_list_in_validate(cls, data_id:str, res_model):
+        """
+        列表包含验证
+        :param data_id:
+        :param res_model:
+        :return:
+        """
+        model = MysqlDataGet.get_data(data_id)
+        expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
+        cls.assert_list_in(expect_data, result)
+
+
+
+    @classmethod
+    def json_path_time_range_validate(cls, data_id:str, res_model):
+        """
+        列表包含验证
+        :param data_id:
+        :param res_model:
+        :return:
+        """
+        model = MysqlDataGet.get_data(data_id)
+        expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
+        cls.assert_time_range(expect_data, result)
 
     @classmethod
     def json_path_list_equal_loop_validate(cls, data_id_list:list, res_model):
@@ -174,12 +203,23 @@ class PubValidate:
         assert set(actual_data) == set(expect_data), f"预期列表与实际列表不一致,预期{expect_data},类型：{type(expect_data)}, 实际:{actual_data},类型:{type(actual_data)}"
 
     @classmethod
-    def assert_list_in(cls, expect_data, actual_data):
+    def assert_list_in(cls, expect_data, actual_data:list):
         """
         验证列表包含
         """
         expect_data = cls.convert_to_list(expect_data)
         assert set(expect_data) == set(actual_data) & set(expect_data),f"预期列表与实际列表不一致,预期{expect_data},类型：{type(expect_data)}, 实际:{actual_data},类型:{type(actual_data)}"
+
+    @classmethod
+    def assert_time_range(cls, start_time_str, end_time_str, actual_data:list):
+        """
+        时间范围验证
+        """
+        for data_str in actual_data:
+            start_time = datetime.strptime(start_time_str, '%Y-%m-%d %H:%M:%S')
+            end_time = datetime.strptime(end_time_str, '%Y-%m-%d %H:%M:%S')
+            data_time = datetime.strptime(data_str, '%Y-%m-%d %H:%M:%S')
+            assert start_time <= data_time <= end_time, f"实际与预期时间范围不一致,预取范围:{start_time} - {end_time}, 实际时间: {data_time}"
 
     @staticmethod
     def loop_verify_for_jsonpath(case_key_list, api_res_model, assert_type: AssertType):

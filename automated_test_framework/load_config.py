@@ -11,6 +11,8 @@ import os
 
 import yaml
 
+from automated_test_framework.framework_error import NoConfigError
+
 
 class ServerConfig(BaseModel):
     host: str
@@ -62,8 +64,7 @@ while True:
         config_path = temp_path
         break
     else:
-        dir_path, file_path = os.path.split(temp_dir)
-        temp_dir = dir_path
+        raise NoConfigError("没有配置文件")
 global_config_obj = None
 
 def init_config():
