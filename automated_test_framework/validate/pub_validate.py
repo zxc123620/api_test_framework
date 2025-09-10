@@ -93,6 +93,20 @@ class PubValidate:
             expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
             cls.assert_list_equal(expect_data, result)
 
+
+    @classmethod
+    def json_path_list_in_loop_validate(cls, data_id_list:list, res_model):
+        """
+        多验证
+        :param res_model:
+        :param data_id_list:
+        :return:
+        """
+        for data_id in data_id_list:
+            model = MysqlDataGet.get_data(data_id)
+            expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
+            cls.assert_list_in(expect_data, result)
+
     @classmethod
     def json_path_list_equal_assert(cls, json_path_exp: str, expect_data, actual_data):
         """
@@ -140,19 +154,32 @@ class PubValidate:
         assert expect_data == actual_data, f"预期结果[{expect_data}]与实际结果[{actual_data}]不一致"
 
     @staticmethod
-    def assert_list_equal(expect_data: list, actual_data):
+    def convert_to_list(data):
+        raw = data
+        if not isinstance(data, list):
+            data = eval(data)
+        if not isinstance(data, list):
+            raise ParamConvertError(f"将{raw}转换为列表失败")
+        return data
+
+    @classmethod
+    def assert_list_equal(cls,expect_data, actual_data:list):
         """
         验证实际结果列表数据是否相等
         :param expect_data:
         :param actual_data:
         :return:
         """
-        raw = actual_data
-        if not isinstance(actual_data, list):
-            actual_data = eval(actual_data)
-        if not isinstance(actual_data, list):
-            raise ParamConvertError(f"将{raw}转换为列表失败")
-        assert set(actual_data) == set(expect_data), f"预期列表与实际列表不一致,预期{expect_data}, 实际:{actual_data}"
+        expect_data = cls.convert_to_list(expect_data)
+        assert set(actual_data) == set(expect_data), f"预期列表与实际列表不一致,预期{expect_data},类型：{type(expect_data)}, 实际:{actual_data},类型:{type(actual_data)}"
+
+    @classmethod
+    def assert_list_in(cls, expect_data, actual_data):
+        """
+        验证列表包含
+        """
+        expect_data = cls.convert_to_list(expect_data)
+        assert set(expect_data) == set(actual_data) & set(expect_data),f"预期列表与实际列表不一致,预期{expect_data},类型：{type(expect_data)}, 实际:{actual_data},类型:{type(actual_data)}"
 
     @staticmethod
     def loop_verify_for_jsonpath(case_key_list, api_res_model, assert_type: AssertType):

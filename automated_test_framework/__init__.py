@@ -6,6 +6,7 @@
 # @Description:
 import automated_test_framework.logger_config
 import automated_test_framework.load_config
+from automated_test_framework.mysql.model.json_path_model import JsonPathDataModel
+from automated_test_framework.mysql.model.case_data_model import MysqlDataModel
 # load_config.init_config()
-
 

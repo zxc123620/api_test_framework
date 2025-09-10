@@ -60,7 +60,7 @@ def variable_convert(data):
         temp_data = match.group(1)
         res = TempData.get_temp_data(temp_data)
         logging.info(f"匹配到{temp_data},转换为:{res}")
-        return res
+        return str(res)
 
     data_new = re.sub(r"\$\{([^}]*)}", convert, data)
     return data_new
