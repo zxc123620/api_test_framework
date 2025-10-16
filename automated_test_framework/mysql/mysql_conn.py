@@ -66,13 +66,14 @@ def variable_convert(data):
     return data_new
 
 
-def get_sql_data(case_key):
+def get_sql_data(case_key, table="data"):
     """
     根据key值返回获取到的SQL数据
+    :param table:
     :param case_key:
     :return:
     """
-    sql = "SELECT * FROM `data` WHERE `key`=%s"
+    sql = f"SELECT * FROM {table} WHERE `key`=%s"
     connection = MysqlObj.get_conn()
     cursor = connection.cursor()
     cursor.execute(sql, (case_key,))
@@ -83,15 +84,24 @@ def get_sql_data(case_key):
     return result
 
 
-def get_converted_data(data_key):
+def get_converted_data(data):
     """
     获取转换过的数据
-    :param data_key:
     :return:
     """
-    result = get_sql_data(data_key)
-    result["data"] = json.loads(variable_convert(result.get("data")))
-    return result
+    # result = get_sql_data(data_key,table)
+    # result["data"] = json.loads(variable_convert(result.get("data")))
+    return json.loads(variable_convert(data))
+
+
+def converted_data(data):
+    """
+    获取转换过的数据
+    :return:
+    """
+    # result = get_sql_data(data_key,table)
+    # result["data"] = json.loads(variable_convert(result.get("data")))
+    return json.loads(variable_convert(data))
 
 
 if __name__ == '__main__':
