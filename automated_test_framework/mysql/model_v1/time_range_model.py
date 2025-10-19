@@ -5,7 +5,7 @@
 # Description:
 from pydantic import BaseModel
 
-from automated_test_framework.mysql.model.case_data_model import MysqlDataModel
+from automated_test_framework.mysql.model_v1.case_data_model import MysqlDataModel
 
 class TimeRangeModel(BaseModel):
     start_time: str

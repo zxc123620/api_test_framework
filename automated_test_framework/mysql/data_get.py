@@ -8,8 +8,8 @@ import logging
 
 from pydantic import ValidationError, BaseModel
 
-from automated_test_framework.mysql.model.case_data_model import MysqlDataModel
-from automated_test_framework.mysql.model.page_locate_model import MysqlLocateDataModel
+from automated_test_framework.mysql.model_v1.case_data_model import MysqlDataModel
+from automated_test_framework.mysql.model_v1.page_locate_model import MysqlLocateDataModel
 from automated_test_framework.mysql.mysql_conn import MysqlObj, converted_data
 
 
@@ -61,10 +61,10 @@ class MysqlDataGet:
             return model_cls(**result)
         model = cls.__model_match(MysqlDataModel, result)
         # logging.info(f"自定义子类:{MysqlDataModel.__subclasses__()}")
-        # model = MysqlDataModel(**result)
+        # model_v1 = MysqlDataModel(**result)
         # for sub_class in MysqlDataModel.__subclasses__():
         #     try:
-        #         model = sub_class(**result)
+        #         model_v1 = sub_class(**result)
         #         logging.info(f"{sub_class}模型匹配")
         #         break
         #     except ValidationError as e:

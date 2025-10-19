@@ -10,7 +10,7 @@ from enum import Enum
 
 import jsonpath
 
-from automated_test_framework.enum import AssertType
+from automated_test_framework.my_enum import AssertType
 from automated_test_framework.framework_error import ParamConvertError
 from automated_test_framework.mysql.data_get import MysqlDataGet
 
@@ -107,7 +107,7 @@ class PubValidate:
         """
         model = MysqlDataGet.get_data(data_id)
         expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
-        cls.assert_time_range(expect_data, result)
+        cls.assert_time_range(model.data.expect_data.start_time, model.data.expect_data.end_time, result)
 
     @classmethod
     def json_path_list_equal_loop_validate(cls, data_id_list:list, res_model):

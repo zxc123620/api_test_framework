@@ -9,7 +9,7 @@ import logging
 import requests
 from automated_test_framework.api.response_model import ResponseModel
 
-from automated_test_framework.load_config import global_config_obj
+from automated_test_framework.load_config import GlobalConfig
 from automated_test_framework.temp_data import TempData
 
 
@@ -28,9 +28,9 @@ class ApiModel:
         def inner_function(func):
             def inner(params: dict = None, json: dict = None, *args, **kwargs):
                 headers = TempData.HEADER if TempData.HEADER else None
-                protocol = global_config_obj.ServerConfig.protocol
-                host = global_config_obj.ServerConfig.host
-                port = global_config_obj.ServerConfig.port
+                protocol = GlobalConfig().ServerConfig.protocol
+                host = GlobalConfig().ServerConfig.host
+                port = GlobalConfig().ServerConfig.port
                 new_url = url
                 if "http" not in url:
                     new_url = f"{protocol}://{host}:{port}/{url}"

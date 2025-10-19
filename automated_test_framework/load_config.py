@@ -4,6 +4,7 @@
 # @Time      :2025/4/8 16:31
 # @Author    :zhouxiaochuan
 # @Description:
+from peewee import MySQLDatabase
 from pydantic import BaseModel
 
 import logging
@@ -26,6 +27,9 @@ class MySqlConfig(BaseModel):
     password: str
     database: str
     port: int
+    def mysql_db(self):
+        return MySQLDatabase(self.database, user=self.username, password=self.password,
+                             host=self.host, port=self.port)
 
 
 class MqttConfig(BaseModel):
@@ -45,12 +49,6 @@ class PimsConfig(BaseModel):
     VirtualFa: list[VirtualFaItem]
 
 
-class GlobalConfig(BaseModel):
-    ServerConfig: ServerConfig
-    MySqlConfig: MySqlConfig
-    MqttConfig: MqttConfig
-
-
 #
 # class PimsGlobalConfig(GlobalConfig):
 #     PimsConfig: PimsConfig
@@ -65,22 +63,49 @@ while True:
         break
     else:
         raise NoConfigError("没有配置文件")
-global_config_obj = None
 
-def init_config():
-    global global_config_obj
-    if global_config_obj is not None:
-        return
-    with open(config_path, 'r', encoding='utf-8') as f:
-        result = yaml.load(f.read(), Loader=yaml.FullLoader)
-        logging.info(f"加载配置文件:{result}")
-        sub_class = GlobalConfig.__subclasses__()
-        if sub_class:
-            logging.info(f"检测到子类,使用子类:{sub_class[0]}")
-            global_config_obj= sub_class[0](**result)
-        else:
-            logging.info("使用默认类")
-            global_config_obj =  GlobalConfig(**result)
+config_data = {}
+
+def config(cls_1):
+    def inner():
+        global config_data
+        if not config_data:
+            with open(config_path, 'r', encoding='utf-8') as f:
+                config_data = yaml.load(f.read(), Loader=yaml.FullLoader)
+                logging.info(f"加载配置文件:{config_data}")
+        return cls_1(**config_data)
+
+    return inner
 
 
-logging.info(global_config_obj)
+@config
+class GlobalConfig(BaseModel):
+    ServerConfig: ServerConfig
+    MySqlConfig: MySqlConfig
+    MqttConfig: MqttConfig
+
+
+# global_config_obj = None
+#
+# def init_config():
+#     global global_config_obj
+#     if global_config_obj is not None:
+#         return
+#     with open(config_path, 'r', encoding='utf-8') as f:
+#         result = yaml.load(f.read(), Loader=yaml.FullLoader)
+#         logging.info(f"加载配置文件:{result}")
+#         sub_class = GlobalConfig.__subclasses__()
+#         if sub_class:
+#             logging.info(f"检测到子类,使用子类:{sub_class[0]}")
+#             global_config_obj= sub_class[0](**result)
+#         else:
+#             logging.info("使用默认类")
+#             global_config_obj =  GlobalConfig(**result)
+#
+
+# logging.info(global_config_obj)
+
+if __name__ == '__main__':
+    print(GlobalConfig().MqttConfig.model_dump())
+    # print(id(GlobalConfig()))
+    # print(id(GlobalConfig()))

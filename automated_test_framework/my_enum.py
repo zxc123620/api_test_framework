@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @FileName  :enum.py
+# @FileName  :my_enum.py
 # @Time      :2025/8/5 18:22
 # @Author    :zhouxiaochuan
 # @Description:

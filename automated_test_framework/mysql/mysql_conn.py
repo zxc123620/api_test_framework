@@ -12,7 +12,7 @@ import logging
 import pymysql
 import pymysql.cursors
 
-from automated_test_framework.load_config import global_config_obj
+from automated_test_framework.load_config import  GlobalConfig
 from automated_test_framework.temp_data import TempData
 
 
@@ -31,12 +31,12 @@ class MysqlObj:
     @classmethod
     def connect(cls):
         conn = pymysql.connect(
-            host=global_config_obj.MySqlConfig.host,
-            user=global_config_obj.MySqlConfig.username,
-            password=global_config_obj.MySqlConfig.password,
-            database=global_config_obj.MySqlConfig.database,
+            host=GlobalConfig().MySqlConfig.host,
+            user=GlobalConfig().MySqlConfig.username,
+            password=GlobalConfig().MySqlConfig.password,
+            database=GlobalConfig().MySqlConfig.database,
             charset="utf8mb4",
-            port=global_config_obj.MySqlConfig.port,
+            port=GlobalConfig().MySqlConfig.port,
             cursorclass=pymysql.cursors.DictCursor
         )
         cls.__CONN = conn

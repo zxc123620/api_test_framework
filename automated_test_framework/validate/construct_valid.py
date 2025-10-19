@@ -78,7 +78,7 @@ from pydantic import BaseModel, ValidationError
 #             if response_obj.has_resp_body():
 #                 logging.info("验证结构")
 #                 try:
-#                     response_obj.model = validate_model(**response_obj.res_body)
+#                     response_obj.model_v1 = validate_model(**response_obj.res_body)
 #                     logging.info("结构验证通过")
 #                 except ValidationError as e:
 #                     logging.exception(e.errors())
