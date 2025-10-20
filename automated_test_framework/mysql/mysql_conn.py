@@ -11,8 +11,11 @@ import logging
 
 import pymysql
 import pymysql.cursors
+from peewee import MySQLDatabase
 
+import automated_test_framework
 from automated_test_framework.load_config import  GlobalConfig
+from automated_test_framework.meta_class import SingletonMeta
 from automated_test_framework.temp_data import TempData
 
 
@@ -47,6 +50,7 @@ class MysqlObj:
         if cls.__CONN:
             cls.__CONN.close()
             cls.__CUR.close()
+
 
 
 def variable_convert(data):
@@ -104,5 +108,19 @@ def converted_data(data):
     return json.loads(variable_convert(data))
 
 
+# 连接数据库
+class MysqlObjV2(metaclass=SingletonMeta):
+    def __init__(self):
+        mysql_config = automated_test_framework.load_config.GlobalConfig().MySqlConfig
+        print(mysql_config.username, mysql_config.host)
+        self.__mysql_db_obj = MySQLDatabase(mysql_config.database, user=mysql_config.username,
+                                            password=mysql_config.password,
+                                            host=mysql_config.host, port=mysql_config.port)
+
+    def close(self):
+        self.__mysql_db_obj.close()
+
 if __name__ == '__main__':
-    get_sql_data("xlza.camera.getCameraInfo1")
+    # get_sql_data("xlza.camera.getCameraInfo1")
+    print(id(MysqlObjV2()))
+    print(id(MysqlObjV2()))

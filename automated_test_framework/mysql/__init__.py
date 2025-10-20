@@ -5,5 +5,4 @@
 # @Author    :zhouxiaochuan
 # @Description: 
 
-if __name__ == "__main__":
-    run_code = 0
+

@@ -27,9 +27,6 @@ class MySqlConfig(BaseModel):
     password: str
     database: str
     port: int
-    def mysql_db(self):
-        return MySQLDatabase(self.database, user=self.username, password=self.password,
-                             host=self.host, port=self.port)
 
 
 class MqttConfig(BaseModel):
@@ -106,6 +103,10 @@ class GlobalConfig(BaseModel):
 # logging.info(global_config_obj)
 
 if __name__ == '__main__':
-    print(GlobalConfig().MqttConfig.model_dump())
-    # print(id(GlobalConfig()))
-    # print(id(GlobalConfig()))
+    data = {'ServerConfig': {'host': '10.168.2.118', 'port': 9082, 'protocol': 'http'}, 'MySqlConfig': {'host': 'localhost', 'username': 'root', 'password': 'root', 'database': 'auto_test_db', 'port': 3306}, 'MqttConfig': {'host': '10.168.2.118', 'port': 1883, 'username': 'admin', 'password': 'CSRD_PASS@2023user'}, 'SftpConfig': {'server_ip': '10.168.2.118', 'port': 2222, 'username': 'xlza', 'password': 'CsrdXljc1', 'path': '/opt/alarmfile'}, 'PimsConfig': {'VirtualFa': [{'desc': '单线', 'radar_camera_bind': [[1, 1], [2, 2], [3, 3], [4, 4]], 'device_no_list': ['75001']}, {'desc': '双线', 'device_no_list': ['75002'], 'radar_camera_bind': [[1, 1], [2, 1], [3, 2], [4, 2]]}, {'desc': '单线', 'device_no_list': ['75003'], 'radar_camera_bind': [[1, 1], [2, 2], [3, 3]]}]}}
+    # data2 = {'ServerConfig': {'host': '10.168.2.118', 'port': 9082, 'protocol': 'http'}, 'MySqlConfig': {'host': 'localhost', 'username': 'root', 'password': 'root', 'database': 'auto_test_db', 'port': 3306}, 'MqttConfig': {'host': '10.168.2.118', 'port': 1883, 'username': 'admin', 'password': 'CSRD_PASS@2023user'}, 'SftpConfig': {'server_ip': '10.168.2.118', 'port': 2222, 'username': 'xlza', 'password': 'CsrdXljc1', 'path': '/opt/alarmfile'}, 'PimsConfig': {'VirtualFa': [{'desc': '单线', 'radar_camera_bind': [[1, 1], [2, 2], [3, 3], [4, 4]], 'device_no_list': ['75001']}, {'desc': '双线', 'device_no_list': ['75002'], 'radar_camera_bind': [[1, 1], [2, 1], [3, 2], [4, 2]]}, {'desc': '单线', 'device_no_list': ['75003'], 'radar_camera_bind': [[1, 1], [2, 2], [3, 3]]}]}}
+    # print(id(GlobalConfig(**data).MySqlConfig))
+    # print(id(GlobalConfig(**data).MySqlConfig))
+    # print(id(GlobalConfig().MySqlConfig))
+    # print(id(GlobalConfig().MySqlConfig))
+

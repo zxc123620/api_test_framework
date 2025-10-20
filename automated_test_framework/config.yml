@@ -4,9 +4,9 @@ ServerConfig:
   protocol: http
 
 MySqlConfig:
-  host: localhost
+  host: 127.0.0.1
   username: root
-  password: root
+  password: '123456'
   database: auto_test_db
   port: 3306
 

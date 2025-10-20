@@ -4,8 +4,10 @@
 # Author:zhouxiaochuan
 # Description:
 import json
+from typing import Union
 
 from peewee import TextField
+from pydantic import BaseModel
 
 
 class JSONField(TextField):
@@ -15,3 +17,39 @@ class JSONField(TextField):
     def python_value(self, value):
         if value is not None:
             return json.loads(value)
+        return None
+
+
+class JsonPathField(TextField):
+    class JsonPathFiledModel(BaseModel):
+        expect_data: Union[dict, list, str]
+        jsonpath_exp: str
+
+        def get_list_expect_data(self):
+            return list(self.expect_data)
+
+    def db_value(self, value):
+        return json.dumps(value)
+
+    def python_value(self, value):
+        if value is not None:
+            return JsonPathField.JsonPathFiledModel(**json.loads(value))
+        return None
+
+
+class TimeRangeField(TextField):
+    class JsonPathTimeRangeModel(BaseModel):
+        class TimeRangeModel(BaseModel):
+            start_time: str
+            end_time: str
+
+        expect_data: TimeRangeModel
+        jsonpath_exp: str
+
+    def db_value(self, value):
+        return json.dumps(value)
+
+    def python_value(self, value):
+        if value is not None:
+            return TimeRangeField.JsonPathTimeRangeModel(**json.loads(value))
+        return None
