@@ -38,6 +38,7 @@ class JsonPathField(TextField):
 
 
 class TimeRangeField(TextField):
+
     class JsonPathTimeRangeModel(BaseModel):
         class TimeRangeModel(BaseModel):
             start_time: str
@@ -45,6 +46,10 @@ class TimeRangeField(TextField):
 
         expect_data: TimeRangeModel
         jsonpath_exp: str
+
+        def get_list_expect_data(self):
+            return list(self.expect_data)
+
 
     def db_value(self, value):
         return json.dumps(value)

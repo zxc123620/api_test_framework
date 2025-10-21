@@ -10,11 +10,11 @@ from automated_test_framework.mysql.model_v2.define_field import JSONField, Json
 from automated_test_framework.mysql.model_v2.project_model import ProjectModel
 
 
-class DataModel(Model):
+class MysqlDataModel(Model):
     key = CharField(primary_key=True)
     title = CharField()
     description = CharField()
-    project = ForeignKeyField(ProjectModel, on_delete='CASCADE', column_name='project')
+    project = ForeignKeyField(ProjectModel,on_delete="RESTRICT", on_update="RESTRICT", column_name='project')
     module = CharField()
     data = JSONField()
     interfaceName = CharField()
@@ -24,14 +24,14 @@ class DataModel(Model):
         table_name = 'data'
 
 
-class JsonPathDataModel(Model):
-    key = CharField(primary_key=True)
-    title = CharField()
-    description = CharField()
-    project = ForeignKeyField(ProjectModel, on_delete='CASCADE',column_name='project')
-    module = CharField()
+class MysqlJsonPathDataModel(MysqlDataModel):
+    # key = CharField(primary_key=True)
+    # title = CharField()
+    # description = CharField()
+    # project = ForeignKeyField(ProjectModel, on_delete='CASCADE',column_name='project')
+    # module = CharField()
     data = JsonPathField()
-    interfaceName = CharField()
+    # interfaceName = CharField()
 
 
     class Meta:
@@ -39,5 +39,9 @@ class JsonPathDataModel(Model):
         table_name = 'data'
 
 
-class JsonPathTimeRangeModel(DataModel):
+class MysqlJsonPathTimeRangeModel(MysqlDataModel):
     data = TimeRangeField()
+
+    class Meta:
+        database =db
+        table_name = 'data'
