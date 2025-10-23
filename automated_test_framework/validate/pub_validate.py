@@ -12,7 +12,7 @@ import jsonpath
 
 from automated_test_framework.my_enum import AssertType
 from automated_test_framework.framework_error import ParamConvertError
-from automated_test_framework.mysql.data_get import MysqlDataGet
+from automated_test_framework.mysql.model_get import MysqlModelGet
 
 
 class PubValidate:
@@ -54,7 +54,7 @@ class PubValidate:
         :param res_model:
         :return:
         """
-        model = MysqlDataGet.get_data(data_id)
+        model = MysqlModelGet.get_json_path_data_model(data_id)
         PubValidate.json_path_data_in_assert(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
 
     @classmethod
@@ -66,7 +66,7 @@ class PubValidate:
         :return:
         """
         for data_id in data_id_list:
-            model = MysqlDataGet.get_data(data_id)
+            model = MysqlModelGet.get_json_path_data_model(data_id)
             PubValidate.json_path_data_in_assert(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
 
     @classmethod
@@ -77,7 +77,7 @@ class PubValidate:
         :param res_model:
         :return:
         """
-        model = MysqlDataGet.get_data(data_id)
+        model = MysqlModelGet.get_json_path_data_model(data_id)
         expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
         cls.assert_list_equal(expect_data, result)
 
@@ -91,7 +91,7 @@ class PubValidate:
         :param res_model:
         :return:
         """
-        model = MysqlDataGet.get_data(data_id)
+        model = MysqlModelGet.get_json_path_data_model(data_id)
         expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
         cls.assert_list_in(expect_data, result)
 
@@ -105,7 +105,7 @@ class PubValidate:
         :param res_model:
         :return:
         """
-        model = MysqlDataGet.get_data(data_id)
+        model = MysqlModelGet.get_json_path_data_model(data_id)
         expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
         cls.assert_time_range(model.data.expect_data.start_time, model.data.expect_data.end_time, result)
 
@@ -118,7 +118,7 @@ class PubValidate:
         :return:
         """
         for data_id in data_id_list:
-            model = MysqlDataGet.get_data(data_id)
+            model = MysqlModelGet.get_json_path_data_model(data_id)
             expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
             cls.assert_list_equal(expect_data, result)
 
@@ -132,7 +132,7 @@ class PubValidate:
         :return:
         """
         for data_id in data_id_list:
-            model = MysqlDataGet.get_data(data_id)
+            model = MysqlModelGet.get_json_path_data_model(data_id)
             expect_data, result = cls.__json_path_extrack(model.data.jsonpath_exp, model.data.expect_data, res_model.json_body.model_dump())
             cls.assert_list_in(expect_data, result)
 
@@ -231,7 +231,7 @@ class PubValidate:
         :return:
         """
         for key in case_key_list:
-            model = MysqlDataGet.get_data(key)
+            model = MysqlModelGet.get_json_path_data_model(key)
             jsonpath_exp = model.data.jsonpath_exp
             expect_data = model.data.expect_data
             if assert_type == AssertType.DATA_IN:
