@@ -38,7 +38,6 @@ class JsonPathField(TextField):
 
 
 class TimeRangeField(TextField):
-
     class JsonPathTimeRangeModel(BaseModel):
         class TimeRangeModel(BaseModel):
             start_time: str
@@ -50,11 +49,25 @@ class TimeRangeField(TextField):
         def get_list_expect_data(self):
             return list(self.expect_data)
 
-
     def db_value(self, value):
         return json.dumps(value)
 
     def python_value(self, value):
         if value is not None:
             return TimeRangeField.JsonPathTimeRangeModel(**json.loads(value))
+        return None
+
+
+class LoginField(TextField):
+    class LoginModel(BaseModel):
+        username: str
+        password: str
+        name: str
+
+    def db_value(self, value):
+        return json.dumps(value)
+
+    def python_value(self, value):
+        if value is not None:
+            return LoginField.LoginModel(**json.loads(value))
         return None

@@ -61,17 +61,16 @@ while True:
     else:
         raise NoConfigError("没有配置文件")
 
-config_data = {}
+__instance = {}
+with open(config_path, 'r', encoding='utf-8') as f:
+    config_data = yaml.load(f.read(), Loader=yaml.FullLoader)
+    logging.info(f"加载配置文件:{config_data}")
 
 def config(cls_1):
     def inner():
-        global config_data
-        if not config_data:
-            with open(config_path, 'r', encoding='utf-8') as f:
-                config_data = yaml.load(f.read(), Loader=yaml.FullLoader)
-                logging.info(f"加载配置文件:{config_data}")
-        return cls_1(**config_data)
-
+        if cls_1 not in __instance:
+           __instance[cls_1] = cls_1(**config_data)
+        return __instance[cls_1]
     return inner
 
 

@@ -6,7 +6,7 @@
 from peewee import Model, CharField, ForeignKeyField
 
 from automated_test_framework.mysql.model_v2 import db
-from automated_test_framework.mysql.model_v2.define_field import JSONField, JsonPathField, TimeRangeField
+from automated_test_framework.mysql.model_v2.define_field import JSONField, JsonPathField, TimeRangeField, LoginField
 from automated_test_framework.mysql.model_v2.project_model import ProjectModel
 
 
@@ -41,6 +41,13 @@ class MysqlJsonPathDataModel(MysqlDataModel):
 
 class MysqlJsonPathTimeRangeModel(MysqlDataModel):
     data = TimeRangeField()
+
+    class Meta:
+        database =db
+        table_name = 'data'
+
+class MysqlDataLoginModel(MysqlDataModel):
+    data = LoginField()
 
     class Meta:
         database =db

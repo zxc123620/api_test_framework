@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='AutomatedTestFramework',  # 包名
-    version='0.0.1',  # 版本号
+    version='0.0.2',  # 版本号
     description='自动化测试框架(初版)',  # 简短描述
     long_description=open('README.md', "r", encoding="utf-8").read(),  # 从 README.md 读取长描述
     long_description_content_type='text/markdown',  # 长描述的格式
@@ -21,7 +21,8 @@ setup(
         'Requests',
         'PyMySQL',
         'pydantic',
-        "jsonpath"
+        "jsonpath",
+        "peewee"
     ],
     python_requires='>=3.9',  # Python 版本要求
 )
