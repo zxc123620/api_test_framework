@@ -5,14 +5,14 @@
 # @Author    :zhouxiaochuan
 # @Description:
 from automated_test_framework.mysql.model_v2 import db
-from peewee import Model, CharField, AutoField
+from peewee import Model, CharField, IntegerField
 
 
 class UrlSaveModel(Model):
-    key = CharField(max_length=100, primary_key=True)
+    key = CharField(primary_key=True, max_length=100)
     protocol = CharField(max_length=100)
     host = CharField(max_length=100)
-    port = AutoField()
+    port = IntegerField()
     path = CharField(max_length=255)
     desc = CharField(max_length=255)
 

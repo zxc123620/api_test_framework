@@ -14,8 +14,9 @@ class ProjectModel(Model):
     description = CharField()
 
     class Meta:
-        database =db
+        database = db
         table_name = 'project'
 
+
 if __name__ == '__main__':
-   pass
+    pass
