@@ -22,7 +22,8 @@ setup(
         'PyMySQL',
         'pydantic',
         "jsonpath",
-        "peewee"
+        "peewee",
+        "selenium"
     ],
     python_requires='>=3.9',  # Python 版本要求
 )

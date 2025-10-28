@@ -6,7 +6,7 @@ ServerConfig:
 MySqlConfig:
   host: 127.0.0.1
   username: root
-  password: '123456'
+  password: root
   database: auto_test_db
   port: 3306
 
