@@ -2,3 +2,4 @@
 /AutomatedTestFramework.egg-info/
 /build/
 /automated_test_framework/test.py
+/automated_test_framework/config.yml

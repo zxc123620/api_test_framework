@@ -14,7 +14,7 @@ class MysqlDataModel(Model):
     key = CharField(primary_key=True)
     title = CharField()
     description = CharField()
-    project = ForeignKeyField(ProjectModel,on_delete="RESTRICT", on_update="RESTRICT", column_name='project')
+    project = ForeignKeyField(ProjectModel,on_delete="CASCADE", on_update="CASCADE", column_name='project')
     module = CharField()
     data = JSONField()
     interfaceName = CharField()

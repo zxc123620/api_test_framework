@@ -6,10 +6,10 @@
 # @Description:
 from typing import Optional
 
-from pydantic import BaseModel
+from peewee import Model
 
 
-class MysqlLocateDataModel(BaseModel):
+class MysqlLocateDataModel(Model):
     key: str
     locate_type: str
     desc: Optional[str]

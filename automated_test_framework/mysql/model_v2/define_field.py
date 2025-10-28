@@ -6,8 +6,20 @@
 import json
 from typing import Union
 
-from peewee import TextField
+from peewee import TextField, CharField
 from pydantic import BaseModel
+from selenium.webdriver.common.by import By
+
+
+class LocateBy:
+    ID = By.ID
+    XPATH = By.XPATH
+    LINK_TEXT = By.LINK_TEXT
+    PARTIAL_LINK_TEXT = By.PARTIAL_LINK_TEXT
+    NAME = By.NAME
+    TAG_NAME = By.TAG_NAME
+    CLASS_NAME = By.CLASS_NAME
+    CSS_SELECTOR = By.CSS_SELECTOR
 
 
 class JSONField(TextField):
@@ -70,4 +82,15 @@ class LoginField(TextField):
     def python_value(self, value):
         if value is not None:
             return LoginField.LoginModel(**json.loads(value))
+        return None
+
+
+class SeleniumBYField(CharField):
+
+    def db_value(self, value):
+        return value
+
+    def python_value(self, value):
+        if value is not None:
+            return getattr(LocateBy, value)
         return None
