@@ -4,7 +4,7 @@
 # Author:zhouxiaochuan
 # Description:
 import json
-from typing import Union
+from typing import Union, Optional
 
 from peewee import TextField, CharField
 from pydantic import BaseModel
@@ -75,6 +75,7 @@ class LoginField(TextField):
         username: str
         password: str
         name: str
+        captcha: Optional[str]
 
     def db_value(self, value):
         return json.dumps(value)
