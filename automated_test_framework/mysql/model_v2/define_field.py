@@ -6,6 +6,7 @@
 import json
 from typing import Union, Optional
 
+from automated_test_framework.mysql.mysql_conn import converted_data
 from peewee import TextField, CharField
 from pydantic import BaseModel
 from selenium.webdriver.common.by import By
@@ -28,7 +29,7 @@ class JSONField(TextField):
 
     def python_value(self, value):
         if value is not None:
-            return json.loads(value)
+            return converted_data(value)
         return None
 
 
@@ -45,7 +46,7 @@ class JsonPathField(TextField):
 
     def python_value(self, value):
         if value is not None:
-            return JsonPathField.JsonPathFiledModel(**json.loads(value))
+            return JsonPathField.JsonPathFiledModel(**converted_data(value))
         return None
 
 
@@ -66,7 +67,7 @@ class TimeRangeField(TextField):
 
     def python_value(self, value):
         if value is not None:
-            return TimeRangeField.JsonPathTimeRangeModel(**json.loads(value))
+            return TimeRangeField.JsonPathTimeRangeModel(**converted_data(value))
         return None
 
 
@@ -82,7 +83,7 @@ class LoginField(TextField):
 
     def python_value(self, value):
         if value is not None:
-            return LoginField.LoginModel(**json.loads(value))
+            return LoginField.LoginModel(**converted_data(value))
         return None
 
 
